@@ -1,29 +1,37 @@
 pipeline {
     agent {
-        label 'node3'
+      label {
+        label 'macos'
+        retries 3
+      }
     }
-
     parameters {
-  	booleanParam defaultValue: true, description: 'True:  upload image (default); False: will not upload ', name: 'blUploadImg'
-  	string defaultValue: '1.0', name: 'ImgTag', trim: true
+      booleanParam defaultValue: true, description: 'True:  upload image (default); False: will not upload ', name: 'blUploadImg'
+      string defaultValue: '1.0', name: 'ImgTag', trim: true
     }
-
     environment {
       ImgName = "willido/user-java"
       ImgTag = "${params.ImgTag}"
       WorkDir = "apis/user-java"
     }
 
+
+
     stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }
         stage('Build Docker Image') {
+            // some block
             steps {
                 echo 'Building docker image'
                 dir(WorkDir) {
-                	sh 'pwd'
-                	sh 'sudo docker build -t $ImgName:$ImgTag .'
-		}
+                    sh 'pwd'
+                    sh 'sudo docker build -t $ImgName:$ImgTag .'
+                }
             }
         }
-
     }
 }
