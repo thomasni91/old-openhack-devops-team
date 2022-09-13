@@ -1,7 +1,7 @@
 pipeline {
     agent {
       label {
-        label 'macos'
+        label 'azurenode'
         retries 3
       }
     }
